@@ -1,11 +1,11 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace ProfoundInventions\Nitpick;
 
 interface AnalyzerDiff
 {
     /**
-     * @return Error
+     * @return Error[]
      */
     public function errors(): array;
 }
