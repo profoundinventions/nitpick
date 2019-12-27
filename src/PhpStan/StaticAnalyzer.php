@@ -9,6 +9,8 @@ class StaticAnalyzer implements \ProfoundInventions\Nitpick\StaticAnalyzer
 {
     public function parse(string $analyzerOutput): AnalyzerOutput
     {
+        // todo detect no errors
+
         $errors = [];
         $lines = preg_split('/\r?\n/', $analyzerOutput);
         $path = "";
@@ -40,6 +42,9 @@ class StaticAnalyzer implements \ProfoundInventions\Nitpick\StaticAnalyzer
 
     private function isContinuationLine(string $line)
     {
+        if (strlen($line) < 7) {
+            return false;
+        }
         for ($i = 0; $i < 7; $i++) {
             if (!ctype_space($line[$i])) {
                 return false;

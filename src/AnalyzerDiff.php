@@ -9,6 +9,11 @@ class AnalyzerDiff
      */
     private $errors;
 
+    public function __construct(Error ...$errors)
+    {
+        $this->errors = $errors;
+    }
+
     /**
      * @return Error[]
      */
