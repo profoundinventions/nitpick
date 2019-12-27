@@ -2,10 +2,19 @@
 
 namespace ProfoundInventions\Nitpick;
 
-interface AnalyzerDiff
+class AnalyzerDiff
 {
+    /**
+     * @var Error[]
+     */
+    private $errors;
+
     /**
      * @return Error[]
      */
-    public function errors(): array;
+    public function errors(): array
+    {
+        return $this->errors;
+    }
+
 }

@@ -1,3 +1,34 @@
 #!/usr/bin/env php
-<?php
+<?php declare(strict_types = 1);
 
+namespace ProfoundInventions\Nitpick;
+
+if (count($_SERVER['argv']) !== 3) {
+    usage();
+}
+$fileOne = file_get_contents($_SERVER['argv'][1]);
+$fileTwo = file_get_contents($_SERVER['argv'][2]);
+diff($fileOne, $fileTwo);
+
+function usage() : void {
+    echo "nitpick [old-static-analyzer-output] [new-analyzer-output]\n";
+    exit(1);
+}
+
+function diff(string $outputOne, string $outputTwo) : void {
+    $factory = new StaticAnalyzerFactory();
+    $analyzer = $factory->build();
+
+    $first = $analyzer->parse($outputOne);
+    $second = $analyzer->parse($outputTwo);
+
+    $diff = $first->compare($second);
+    $errors = $diff->errors();
+
+    if ($errors !== []) {
+        foreach ($errors as $error) {
+            $error->output();
+        }
+        exit(1);
+    }
+}
