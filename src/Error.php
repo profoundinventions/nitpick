@@ -21,9 +21,9 @@ class Error
 
     public function __construct(string $file, int $line, string $message)
     {
-        $this->file = $file;
+        $this->file = trim($file);
         $this->line = $line;
-        $this->message = $message;
+        $this->message = trim($message);
     }
 
     public function file(): string
@@ -45,6 +45,4 @@ class Error
     {
         echo "Nitpick: {$this->file}:{$this->line}: {$this->message}\n";
     }
-
-
 }

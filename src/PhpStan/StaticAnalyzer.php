@@ -17,6 +17,10 @@ class StaticAnalyzer implements \ProfoundInventions\Nitpick\StaticAnalyzer
         $cnt = count($lines);
         for ($lineIndex = 0; $lineIndex < $cnt; $lineIndex++) {
             $line = $lines[$lineIndex];
+            if (strpos($line, "[ERROR] Found") !== false) {
+                break;
+            }
+
             if (preg_match('/^\s+Line \s*(.*)/', $line, $matches)) {
                 $path = $matches[1];
             } elseif ($path !== "") {

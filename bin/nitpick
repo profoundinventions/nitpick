@@ -3,6 +3,8 @@
 
 namespace ProfoundInventions\Nitpick;
 
+require __DIR__ . '/../vendor/autoload.php';
+
 if (count($_SERVER['argv']) !== 3) {
     usage();
 }
