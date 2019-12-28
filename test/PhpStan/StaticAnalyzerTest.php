@@ -34,4 +34,14 @@ EOF;
         ]);
         $this->assertEquals($expected, $errors[0]->message());
     }
+
+    public function testParseReturnsEmptyWhenThereAreNoErrors() {
+        $input = <<<EOD
+ [OK] No errors
+EOD;
+        $analyzer = new StaticAnalyzer();
+        $output = $analyzer->parse($input);
+        $errors = $output->errors();
+        $this->assertCount(0, $errors);
+    }
 }
