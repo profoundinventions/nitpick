@@ -13,7 +13,8 @@ class StaticAnalyzerFactory
      * @var array<string, string>
      */
     private $analyzers = [
-        'phpstan' => Analyzers\PhpStanStaticAnalyzer::class
+        'phpstan' => Analyzers\PhpStanStaticAnalyzer::class,
+        'psalm' => Analyzers\PsalmStaticAnalyzer::class,
     ];
 
     public function __construct()

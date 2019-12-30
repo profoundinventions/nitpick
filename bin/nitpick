@@ -5,21 +5,56 @@ namespace ProfoundInventions\Nitpick;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-if (count($_SERVER['argv']) !== 3) {
+if (count($_SERVER['argv']) !== 4) {
     usage();
 }
-$fileOne = file_get_contents($_SERVER['argv'][1]);
-$fileTwo = file_get_contents($_SERVER['argv'][2]);
-diff($fileOne, $fileTwo);
 
-function usage() : void {
-    echo "nitpick <old-static-analyzer-output> <new-analyzer-output>\n";
+list($firstFile, $secondFile, $analyzer) = parseArgs(array_slice($_SERVER['argv'], 1));
+$fileOne = file_get_contents($firstFile);
+if ($fileOne === false) {
+    echo "Error reading first file (\"$firstFile\")\n";
+    exit(1);
+}
+$fileTwo = file_get_contents($secondFile);
+if ($fileTwo === false) {
+    echo "Error reading second file (\"secondFile\")\n";
+    exit(1);
+}
+diff($analyzer ,$fileOne, $fileTwo);
+
+function parseArgs(array $args): array
+{
+    $analyzer = "";
+    $restArgs = [];
+    foreach ($args as $arg) {
+        if (strpos($arg, "--analyzer=") !== false) {
+            $analyzer = substr($arg, strlen('--analyzer='));
+            if (!in_array($analyzer, ['phpstan', 'psalm'], true)) {
+                usage();
+            }
+        } else {
+            $restArgs[] = $arg;
+        }
+    }
+    if (!$analyzer || count($restArgs) !== 2) {
+        usage();
+    }
+    return array_merge($restArgs, [$analyzer]);
+}
+
+function usage() : void
+{
+    echo "Usage:\n";
+    echo "   nitpick --analyzer=ANALYZER <old-static-analyzer-output> <new-analyzer-output>\n";
+    echo "\n";
+    echo "ANALYZER is one of: \"phpstan\", or \"psalm\".\n";
     exit(1);
 }
 
-function diff(string $outputOne, string $outputTwo) : void
+function diff(string $analyzer, string $outputOne, string $outputTwo) : void
 {
     $factory = new StaticAnalyzerFactory();
+    $factory->pickAnalyzer($analyzer);
     $analyzer = $factory->build();
 
     $first = $analyzer->parse($outputOne);
@@ -45,7 +80,7 @@ function diff(string $outputOne, string $outputTwo) : void
     echo "\n";
     foreach ($errors as $error) {
         $error->output();
+        echo "\n";
     }
-    echo "\n";
     exit(1);
 }
