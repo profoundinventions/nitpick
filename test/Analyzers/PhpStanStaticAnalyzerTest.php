@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-namespace ProfoundInventions\Nitpick\Test\PhpStan;
+namespace ProfoundInventions\Nitpick\Test\Analyzers;
 
 use PHPUnit\Framework\TestCase;
-use ProfoundInventions\Nitpick\PhpStan\StaticAnalyzer;
+use ProfoundInventions\Nitpick\Analyzers\PhpStanStaticAnalyzer;
 
-class StaticAnalyzerTest extends TestCase
+class PhpStanStaticAnalyzerTest extends TestCase
 {
     public function testParse() {
         $text = <<<'EOF'
@@ -17,13 +17,13 @@ class StaticAnalyzerTest extends TestCase
  ------ ---------------------------------------------------------------------------------
 
  ------ --------------------------------------------------------------------------------------------------
-  Line   StaticAnalyzerF    actory.php
+  Line   StaticAnalyzerFactory.php
  ------ --------------------------------------------------------------------------------------------------
   9      Property ProfoundInventions\Nitpick\StaticAnalyzerFactory::$analyzer has no typehint specified.
   11     Property ProfoundInventions\Nitpick\StaticAnalyzerFactory::$analyzers has no typehint specified.
  ------ --------------------------------------------------------------------------------------------------
 EOF;
-        $analyzer = new StaticAnalyzer();
+        $analyzer = new PhpStanStaticAnalyzer();
         $output = $analyzer->parse($text);
         $errors = $output->errors();
         $this->assertCount(3, $errors);
@@ -39,7 +39,7 @@ EOF;
         $input = <<<EOD
  [OK] No errors
 EOD;
-        $analyzer = new StaticAnalyzer();
+        $analyzer = new PhpStanStaticAnalyzer();
         $output = $analyzer->parse($input);
         $errors = $output->errors();
         $this->assertCount(0, $errors);

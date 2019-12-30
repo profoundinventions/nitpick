@@ -1,12 +1,18 @@
 <?php declare(strict_types = 1);
 
-namespace ProfoundInventions\Nitpick\PhpStan;
+namespace ProfoundInventions\Nitpick\Analyzers;
 
 use ProfoundInventions\Nitpick\AnalyzerOutput;
 use ProfoundInventions\Nitpick\Error;
+use ProfoundInventions\Nitpick\StaticAnalyzer;
 
-class StaticAnalyzer implements \ProfoundInventions\Nitpick\StaticAnalyzer
+class PhpStanStaticAnalyzer implements StaticAnalyzer
 {
+    public function name(): string
+    {
+        return "phpstan";
+    }
+
     public function parse(string $analyzerOutput): AnalyzerOutput
     {
         if (strpos($analyzerOutput, "[OK] No errors") !== false) {
@@ -14,7 +20,10 @@ class StaticAnalyzer implements \ProfoundInventions\Nitpick\StaticAnalyzer
         }
 
         $errors = [];
-        $lines = preg_split('/\r?\n/', $analyzerOutput);
+        $lines = preg_split('/\r?\n/', $analyzerOutput, -1, PREG_SPLIT_NO_EMPTY);
+        if ($lines === false) {
+            return new AnalyzerOutput();
+        }
         $path = "";
         $cnt = count($lines);
         for ($lineIndex = 0; $lineIndex < $cnt; $lineIndex++) {

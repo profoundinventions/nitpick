@@ -1,12 +1,16 @@
 {
   "name": "profoundinventions/nitpick",
   "description": "Run static analyzers against two different versions of a project.",
-  "minimum-stability": "dev",
-  "license": "BSD-3-Clause",
+  "minimum-stability": "stable",
+  "license": "Apache-2.0",
   "authors": [
     {
       "name": "Profound Inventions, LLC",
       "email": "profoundinventions@gmail.com"
+    },
+    {
+      "name": "David Meybohm",
+      "email": "dmeybohm@gmail.com"
     }
   ],
   "bin": ["bin/nitpick"],

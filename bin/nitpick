@@ -13,11 +13,12 @@ $fileTwo = file_get_contents($_SERVER['argv'][2]);
 diff($fileOne, $fileTwo);
 
 function usage() : void {
-    echo "nitpick [old-static-analyzer-output] [new-analyzer-output]\n";
+    echo "nitpick <old-static-analyzer-output> <new-analyzer-output>\n";
     exit(1);
 }
 
-function diff(string $outputOne, string $outputTwo) : void {
+function diff(string $outputOne, string $outputTwo) : void
+{
     $factory = new StaticAnalyzerFactory();
     $analyzer = $factory->build();
 
@@ -27,10 +28,24 @@ function diff(string $outputOne, string $outputTwo) : void {
     $diff = $first->compare($second);
     $errors = $diff->errors();
 
-    if ($errors !== []) {
-        foreach ($errors as $error) {
-            $error->output();
-        }
-        exit(1);
+    if ($errors === []) {
+        echo "NITPICK: NO ADDITIONAL ERRORS FOUND.\n";
+        return;
     }
+
+    echo "NITPICK: ADDITIONAL ERRORS FOUND\n";
+    echo "--------------------------------\n";
+    printf(
+        "The following %d additional error(s) were found when running the %s analyzer:",
+        count($errors),
+        $analyzer->name()
+    );
+    echo "\n";
+
+    echo "\n";
+    foreach ($errors as $error) {
+        $error->output();
+    }
+    echo "\n";
+    exit(1);
 }

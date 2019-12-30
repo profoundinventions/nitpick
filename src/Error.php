@@ -43,6 +43,6 @@ class Error
 
     public function output(): void
     {
-        echo "Nitpick: {$this->file}:{$this->line}: {$this->message}\n";
+        echo "File: {$this->file}\nLine: {$this->line}\nMessage: {$this->message}\n";
     }
 }

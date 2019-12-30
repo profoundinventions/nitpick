@@ -37,9 +37,6 @@ class AnalyzerOutput
             if (key_exists($message, $keyedErrors) && count($keyedErrors[$message]) > 0) {
                 array_shift($keyedErrors[$message]);
                 unset($newErrors[$key]);
-                if (count($keyedErrors[$message]) === 0) {
-                    unset($keyedErrors[$message]);
-                }
             }
         }
 

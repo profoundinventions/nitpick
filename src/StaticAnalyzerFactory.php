@@ -1,21 +1,19 @@
 <?php declare(strict_types = 1);
 
-namespace ProfoundInventions\Nitpick;
-
-use ProfoundInventions\Nitpick\PhpStan;
+namespace ProfoundInventions\Nitpick;;
 
 class StaticAnalyzerFactory
 {
     /**
      * @var string
      */
-    private $analyzer = PhpStan\StaticAnalyzer::class;
+    private $analyzer = Analyzers\PhpStanStaticAnalyzer::class;
 
     /**
      * @var array<string, string>
      */
     private $analyzers = [
-        'phpstan' => PhpStan\StaticAnalyzer::class
+        'phpstan' => Analyzers\PhpStanStaticAnalyzer::class
     ];
 
     public function __construct()
