@@ -71,13 +71,12 @@ function diff(string $analyzer, string $outputOne, string $outputTwo) : void
     echo "NITPICK: ADDITIONAL ERRORS FOUND\n";
     echo "--------------------------------\n";
     printf(
-        "The following %d additional error(s) were found when running the %s analyzer:",
+        "The following %d additional error(s) were found when running the %s analyzer:\n",
         count($errors),
         $analyzer->name()
     );
     echo "\n";
 
-    echo "\n";
     foreach ($errors as $error) {
         $error->output();
         echo "\n";

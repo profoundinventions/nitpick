@@ -24,14 +24,13 @@ class PsalmStaticAnalyzer implements StaticAnalyzer
         if ($lines === false) {
             return new AnalyzerOutput();
         }
-        $path = "";
         foreach ($lines as $line) {
             if (preg_match(
                 '/ERROR.*(?<errorType>.*) - (?<path>.*):(?<lineNumber>\d+):\d+ - (?<message>.*)/',
                 $line,
                 $matches
             )) {
-                $lineNumber = intval($matches['lineNumber']);
+                $lineNumber = $matches['lineNumber'];
                 $errors[] = new Error($matches['path'], (int)$lineNumber, $matches['message']);
             }
         }
